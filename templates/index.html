@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Safety System</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Kitchen Safety System</h1>
+    </header>
+    <main>
+        <div class="main">
+            <nav class="sidebar">
+                <ul>
+                    <li class="tab active" data-tab="prediction">
+                        <span class="material-icons-sharp">view_list</span>
+                        <span>Features</span>
+                    </li>
+
+                    <li class="tab" data-tab="analysis">
+                        <span class="material-icons-sharp">analytics</span>
+                        <span>Analysis</span>
+                    </li>
+
+                    <li class="tab" data-tab="check">
+                        <span class="material-icons-sharp">article</span>
+                        <span>Check</span>
+                    </li>
+                </ul>
+                <div class="sidebar-control">
+                    <button id="sidebar-start-pause">
+                        <span class="material-icons-sharp">play_arrow</span>
+                        <span>Start</span>
+                    </button>
+                    <button id="sidebar-reset">
+                        <span class="material-icons-sharp">replay</span>
+                        <span>Reset</span>
+                </div>
+            </nav>
+
+            <div class="sections">
+
+                <!-- ===== PREDICTION ===== -->
+                <section class="tab-content prediction active" data-content="prediction">
+
+                    <div class="prediction-data">
+                        <h2>Data</h2>
+                        <ul>
+                            <li><a>Timestamp:</a><span id="timestamp">--</span></li>
+                            <li><a>Temperature:</a><span id="temperature">--</span></li>
+                            <li><a>Gas Concentration:</a><span id="gas-concentration">--</span></li>
+                            <li><a>Fire Status:</a><span id="fire-status">--</span></li>
+                            <li><a>Stove Status:</a><span id="stove-status">--</span></li>
+                            <li><a>People Detected:</a><span id="people-detected">--</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="prediction-features">
+                        <h2>Create Features</h2>
+                        <ul>
+                            <li><a>Temperature:</a><span id="features-temperature">--</span></li>
+                            <li><a>Gas Concentration:</a><span id="features-gas-concentration">--</span></li>
+                            <li><a>Fire Status:</a><span id="features-fire-status">--</span></li>
+                            <li><a>Stove Status:</a><span id="features-stove-status">--</span></li>
+                            <li><a>People Detected:</a><span id="features-people-detected">--</span></li>
+                            <li><a>Temperature Variation:</a><span id="features-temperature-variation">--</span></li>
+                            <li><a>Gas Concentration Variation:</a><span
+                                    id="features-gas-concentration-variation">--</span>
+                            </li>
+                            <li><a>Unattended stove time:</a><span id="features-unattended-stove-time">--</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="prediction-check">
+                        <div class="prediction-status">
+                            <h2>Kitchen Status</h2>
+                            <a>There is fire</a>
+                        </div>
+                        <div class="prediction-actions">
+                            <h2>Recommended Actions</h2>
+                            <ul></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== ANALYSIS ===== -->
+                <section class="tab-content analysis" data-content="analysis">
+                    <h2>Analysis Chart</h2>
+
+                    <ul class="analysis-filters collapsed">
+                        <li class="analysis-filter-header">
+                            Filters
+                            <span class="material-icons-sharp">keyboard_arrow_down</span>
+                        </li>
+
+                        <li><label><input type="checkbox" checked data-key="temperature"> Temperature</label></li>
+                        <li><label><input type="checkbox" checked data-key="gas"> Gas Concentration</label></li>
+                        <li><label><input type="checkbox" checked data-key="human"> People Detected</label></li>
+                        <li><label><input type="checkbox" checked data-key="stove"> Stove Status</label></li>
+                        <li><label><input type="checkbox" checked data-key="fire"> Fire Status</label></li>
+                        <li><label><input type="checkbox" checked data-key="temperature_variation"> Temperature
+                                Variation</label></li>
+                        <li><label><input type="checkbox" checked data-key="gas_variation"> Gas Concentration
+                                Variation</label></li>
+                        <li><label><input type="checkbox" checked data-key="stove_time"> Unattended stove time</label>
+                        </li>
+                        <li><label><input type="checkbox" checked data-key="label"> Fire Prediction</label></li>
+                    </ul>
+
+                    <canvas id="analysisChart"></canvas>
+                </section>
+
+                <!-- ===== CHECK ===== -->
+                <section class="tab-content check " data-content="check">
+                    <div class="check-feature">
+                        <h2>Features</h2>
+                        <ul>
+                            <li class="check-input-box">
+                                <label for="temperature-input">
+                                    <span class="check-prefix">Temperature:</span>
+                                </label>
+                                <input id="temperature-input" class="check-number" type="number" />
+                                <span class="check-suffix">°C</span>
+                            </li>
+                            <li class="check-input-box">
+                                <label for="gas-concentration-input">
+                                    <span class="check-prefix">Gas Concentration:</span>
+                                </label>
+                                <input id="gas-concentration-input" class="check-number" type="number" />
+                                <span class="check-suffix">ppm</span>
+                            </li>
+                            <li class="check-input-box">
+                                <label for="temperature-variation-input">
+                                    <span class="check-prefix">Temperature Variation:</span>
+                                </label>
+                                <input id="temperature-variation-input" class="check-number" type="number" />
+                                <span class="check-suffix">°C</span>
+                            </li>
+                            <li class="check-input-box">
+                                <label for="gas-variation-input">
+                                    <span class="check-prefix">Gas Concentration Variation:</span>
+                                </label>
+                                <input id="gas-variation-input" class="check-number" type="number" />
+                                <span class="check-suffix">ppm</span>
+                            </li>
+                            <li class="check-input-box">
+                                <label for="unattended-stove-time-input">
+                                    <span class="check-prefix">Unattended Stove Time:</span>
+                                </label>
+                                <input id="unattended-stove-time-input" class="check-number" type="number" />
+                                <span class="check-suffix">minutes</span>
+                            </li>
+                            <li class="check-input-box">
+                                <label for="fire-status-input">
+                                    <span class="check-prefix">Fire Status:</span>
+                                </label>
+                                <input id="fire-status-input" class="check-checkbox" type="checkbox" />
+                            </li>
+                            <li class="check-input-box">
+                                <label for="stove-status-input">
+                                    <span class="check-prefix">Stove Status:</span>
+                                </label>
+                                <input id="stove-status-input" class="check-checkbox" type="checkbox" />
+                            </li>
+
+                            <li class="check-input-box">
+                                <label for="people-detected-input">
+                                    <span class="check-prefix">People Detected:</span>
+                                </label>
+                                <input id="people-detected-input" class="check-checkbox" type="checkbox" />
+                            </li>
+                        </ul>
+                        <div class="check-btn">
+                            <button id="check-btn-clear">Clear</button>
+                            <button id="check-btn-submit">Summit</button>
+                        </div>
+
+                    </div>
+                    <div class="check-arrow">
+                        <span class="material-icons-sharp">
+                            forward
+                        </span>
+                    </div>
+                    <div class="prediction-check">
+                        <div class="prediction-status">
+                            <h2>Kitchen Status</h2>
+                            <a>There is fire</a>
+                        </div>
+                        <div class="prediction-actions">
+                            <h2>Recommended Actions</h2>
+                            <ul></ul>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+
+
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- <script src="../static/chart.js"></script>
+    <script src="../static/script.js"></script> -->
+
+
+
+</body>
+
+
+</html>

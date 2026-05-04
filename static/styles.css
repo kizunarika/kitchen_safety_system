@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+*, *::after,
+*::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    cursor: inherit;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+:root {
+    --primary-color: #3b3b3b;
+    --secondary-color: #f5f5f5;
+    --accent-color: #616161;
+
+    --shadow:0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+    font-weight: 400;
+    width: 100vw;
+    height: 100vh;
+    overflow: none;
+}
+
+header {
+    background-color: #3b3b3b;
+    color: white;
+    height: 84px;
+    padding: 1rem 0;
+    text-align: center;
+}
+main {
+    width: 100%;
+    height: calc(100vh - 84px);
+}
+.main {
+    padding: 40px;
+    padding-bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar {
+    width: 150px; 
+    background-color: white;
+    box-shadow: var(--shadow);
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.sidebar ul li.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+.sidebar ul li:hover {
+    color: white;
+    font-weight: 600;
+    background-color: var(--primary-color);
+}
+.sidebar ul li .material-icons-sharp {
+    margin-right: 10px;
+    font-size: 24px;
+}
+.sidebar-control {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.sidebar-control button {
+    width: 80%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+.sidebar-control button:hover {
+    background-color: var(--accent-color);
+}
+
+main section {
+    width: 1030px;
+    height: 500px;
+    position: relative;
+    display: none;
+}
+.prediction {
+    display: flex;
+    justify-content: space-between;
+}
+
+.prediction-data, .prediction-features, .prediction-status, .prediction-actions {
+    background-color: white;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    flex: 1;
+    margin-right: 10px;
+}
+.prediction-status {
+    margin-bottom: 10px;
+}
+.prediction-check{
+    display: flex;
+    flex-direction: column;
+}
+main .prediction ul {
+    margin-top: 10px;
+    width: 100%;
+}
+main .prediction li {
+    /* margin-bottom: 8px; */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+}
+main .prediction li a {
+    width: 170px;
+}
+main .prediction li span {
+    width: 45%;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.analysis-filters {
+    position: absolute;
+    top: -10px;
+    right: 0;
+    background-color: white;
+    padding: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.analysis-filter {
+    width: 100%;
+    padding: 0 5px;
+    cursor: pointer;
+}
+.analysis-filter:hover {
+    background-color: var(--secondary-color);
+}
+
+.analysis-filter-header {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.analysis-filter-header span {
+  transition: transform 0.3s ease;
+}
+.analysis-filters.collapsed {
+  max-height: 54px;
+  box-shadow: none;
+  background: none;
+}
+.analysis-filters.collapsed
+.analysis-filter-header span {
+  transform: rotate(-90deg);
+}
+.analysis-filters.collapsed
+.analysis-filter-header {
+  justify-content: start;
+}
+
+.check {
+    display: flex;
+    justify-content: space-between;
+}
+
+.check-feature {
+    height: 100%;
+    background-color: white;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+    padding: 10px;
+    box-shadow: var(--shadow);
+}
+
+.tab-content {
+  display: none;
+  overflow: auto;
+}
+
+.tab-content.prediction.active,
+.tab-content.check.active  {
+  display: flex;
+  gap: 16px;
+}
+
+.tab-content.analysis.active{
+  display: block;
+}
+
+.check-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-arrow span {
+    font-size: 70px;
+    color: var(--primary-color);
+}
+
+.check-btn {
+    width: 100%;
+    margin: 7px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.check-btn button {
+    width: 45%;
+    height: 40px;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.check-btn button:hover {
+    background-color: var(--accent-color);
+}
+
+.check-feature ul {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.check-input-box {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 4px;
+}
+
+.check-input-box input {    
+    min-width: 0;    
+    border: none;
+    border-bottom: 1px solid var(--primary-color);
+    outline: none;
+    padding: 2px 4px;
+    background: transparent;
+    color: var(--primary-color);
+}
+.check-number {  
+    flex: 1;
+}
+.check-checkbox {
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
