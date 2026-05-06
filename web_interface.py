@@ -37,7 +37,37 @@ class KitchenWebInterface:
                 "prediction": self.prediction,
                 "action": self.action,
                 "features": self.features,
+                "input_mode": self.main.input_mode,
+                "timestamp": self.main.time.strftime("%Y-%m-%d %H:%M:%S")
             })
+
+        @self.app.route('/save_rules', methods=['POST'])
+        def save_rules():
+            try:
+                data = request.get_json()
+                rules = data.get("rules", [])
+
+                parsed = []
+                for r in rules:
+                    condition, result = r.rsplit(",", 1)
+                    parsed.append({
+                        "condition": condition.strip('"'),
+                        "result": int(result)
+                    })
+
+                import json
+                with open("rules.json", "w", encoding="utf-8") as f:
+                    json.dump(parsed, f, indent=4, ensure_ascii=False)
+
+                print("[INFO] Saved rules:", parsed)
+
+                return jsonify({"status": "ok"})
+
+            except Exception as e:
+                return jsonify({
+                    "status": "error",
+                    "message": str(e)
+                })
 
         @self.app.route('/submit_features', methods=['POST'])
         def receive_from_web():

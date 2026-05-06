@@ -31,10 +31,13 @@ int stove_on = 0;
 unsigned long lastLoopTime = 0;
 unsigned long loopInterval = 3000;
 
-unsigned long absent_time = 0;
+unsigned long absence_time = 0;
+unsigned long stove_time = 0;
 
 float lastTemp = 0;
 float lastGas = 0;
+
+int result = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -82,6 +85,30 @@ void loop() {
 
   lastReading = reading;
 
+  if (Serial.available()) {
+    result = Serial.parseInt();
+  }
+
+  // ===== 2. LUÔN UPDATE LED =====
+  if (result == 2) {
+    digitalWrite(led_safe, LOW);
+    digitalWrite(led_warn, LOW);
+    digitalWrite(led_danger, HIGH);
+    digitalWrite(buzzer, HIGH);
+  }
+  else if (result == 1) {
+    digitalWrite(led_safe, LOW);
+    digitalWrite(led_warn, HIGH);
+    digitalWrite(led_danger, LOW);
+    digitalWrite(buzzer, HIGH);
+  }
+  else {
+    digitalWrite(led_safe, HIGH);
+    digitalWrite(led_warn, LOW);
+    digitalWrite(led_danger, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+
   // ===== CHẠY SENSOR MỖI 3s =====
   if (millis() - lastLoopTime >= loopInterval) {
     lastLoopTime = millis();
@@ -107,11 +134,17 @@ void loop() {
       human = 1;
     }
 
-    // ===== ABSENT TIME =====
+    // ===== absence TIME =====
     if (human == 0) {
-      absent_time += (loopInterval / 1000);
+      absence_time += (loopInterval / 1000);
     } else {
-      absent_time = 0;
+      absence_time = 0;
+    }
+
+    if (stove_on == 1) {
+      stove_time += (loopInterval / 1000);
+    } else {
+      stove_time = 0;
     }
 
     // ===== SERIAL OUTPUT =====
@@ -125,41 +158,14 @@ void loop() {
     Serial.print(',');
     Serial.print(stove_on);
     Serial.print(',');
-    Serial.print(absent_time);
+    Serial.print(absence_time);
+    Serial.print(',');
+    Serial.print(stove_time);
     Serial.print(',');
     Serial.print(delta_gas);
     Serial.print(',');
     Serial.print(delta_temp);
     Serial.print(',');
-    int result = predict(fireState, gasValue, temp, human, stove_on, absent_time);
-
-    Serial.print(result);
-
-    // ===== LED + BUZZER =====
-    if (result == 2) {
-      digitalWrite(led_safe, LOW);
-      digitalWrite(led_warn, LOW);
-      digitalWrite(led_danger, HIGH);
-
-      digitalWrite(buzzer, HIGH);
-    }
-
-    else if (result == 1) {
-      digitalWrite(led_safe, LOW);
-      digitalWrite(led_warn, HIGH);
-      digitalWrite(led_danger, LOW);
-
-      digitalWrite(buzzer, HIGH);
-    }
-
-    else {
-      digitalWrite(led_safe, HIGH);
-      digitalWrite(led_warn, LOW);
-      digitalWrite(led_danger, LOW);
-
-      digitalWrite(buzzer, LOW);
-    }
-
     Serial.println();
   }
 }
@@ -179,44 +185,4 @@ float getDistance() {
 
   float distance = duration * 0.034 / 2;
   return distance;
-}
-
-// ===== PREDICT (GIỮ NGUYÊN) =====
-int predict(
-  int fire,
-  float gas,
-  float temp,
-  int human,
-  int stove_on,
-  int stove_time
-) {
-
-  if (fire == 1 && temp > 50) {
-    return 2;
-  }
-  if (fire == 0 && stove_on == 1) {
-    return 2;
-  }
-
-  if (gas > 700 && fire == 0) {
-    return 2;
-  }
-
-  if (gas > 600 && fire == 1) {
-    return 2;
-  }
-
-  if (temp > 45 && gas > 550) {
-    return 1;
-  }
-
-  if (stove_on == 1 && human == 0 && stove_time > 15) {
-    return 1;
-  }
-
-  if (gas > 400 && fire == 0) {
-    return 1;
-  }
-
-  return 0;
 }

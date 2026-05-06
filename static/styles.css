@@ -9,6 +9,27 @@
     cursor: inherit;
     overflow: hidden;
 }
+/* toàn bộ scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* nền */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* thanh kéo */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+    border-radius: 10px;
+    width: 8px;
+}
+
+/* hover */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+}
 
 a {
     text-decoration: none;
@@ -232,7 +253,8 @@ main .prediction li span {
 }
 
 .tab-content.prediction.active,
-.tab-content.check.active  {
+.tab-content.check.active,
+.rules.active  {
   display: flex;
   gap: 16px;
 }
@@ -307,4 +329,116 @@ main .prediction li span {
     width: 15px;
     cursor: pointer;
     margin-left: 10px;
+}
+
+.rules {
+    flex-direction: column;
+}
+
+#ruleList {
+    margin-top: 10px;
+    width: 100%;
+    height: calc(100% - 88px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+.rules-btn {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap:20px;
+}
+.rules-btn button {
+    width: 150px;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.rules-btn button:hover {
+    background-color: var(--accent-color);
+}
+
+.rule {
+    padding: 10px 30px;
+    background-color: white;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 15px;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    overflow: visible;
+}
+
+.rule input {
+    flex: 1;
+    border: 1px solid var(--accent-color);
+    outline: none;
+    background: var(--secondary-color);
+    font-size: 16px;
+    height: 25px;
+    padding: 0 10px;
+}
+
+.rule-result {
+    width: 150px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border-radius: 5px; */
+    position: relative;
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+    padding: 0 10px;
+    overflow: visible;
+}
+.rule-result .rule-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+    width: 100%;
+    height: 78px;
+    z-index: 10;
+    margin: 0;
+}
+.rule-result.active .rule-dropdown {
+    display: block;
+}
+
+.rule-result .rule-dropdown li {
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.rule-result .rule-dropdown li:hover {
+    background: white;
+}
+.rule-delete {
+    width: 30px;
+    height: 30px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* margin-left: 130px; */
+    transition: all 0.2s ease;
+}
+.rule-delete:hover {
+    background-color: var(--primary-color);
 }

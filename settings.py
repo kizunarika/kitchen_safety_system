@@ -4,6 +4,7 @@ TRANSMISSION_PORT = 'COM6'
 MODEL_PATH = "kitchen_model.pkl"
 DF_TRAIN_PATH = "df_train.csv"
 DATA_PATH = "static/kitchen_data.csv"
+RULES_PATH = "static/kitchen_rules.csv"
 
 
 FEATURES = [

@@ -52,7 +52,6 @@ class Main:
 
         # ================= MAIN LOOP =================
         while True:
-
             if self.input_mode == "serial" and self.ser.in_waiting:
                 raw = self.ser.readline().decode().strip().split(" ")
 
