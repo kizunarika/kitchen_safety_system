@@ -8,7 +8,7 @@ import os
 class Main:
     def __init__(self):
         # Serial communication
-        self.ser = serial.Serial(TRANSMISSION_PORT, 115200, timeout=1)
+        # self.ser = serial.Serial(TRANSMISSION_PORT, 115200, timeout=1)
 
         # Web interface
         self.web = KitchenWebInterface(self)
@@ -16,12 +16,13 @@ class Main:
         # Input source control
         self.input_mode = "serial"
 
-        self.time = datetime.now()
+        self.time = datetime.now().replace(microsecond=0)
 
         self.rules = self.load_rules(RULES_PATH)
 
     def run(self):
         while True:
+            continue
             if self.input_mode == "serial" and self.ser.in_waiting:
                 raw_line = self.ser.readline().decode(errors="ignore").strip()
                 # print("[RAW]", raw_line)
@@ -44,7 +45,7 @@ class Main:
                     "temp_delta": float(raw[8]),
                     # "prediction": int(raw[9])
                 }
-                self.time = datetime.now()
+                self.time = datetime.now().replace(microsecond=0)
 
                 print("[INFO] Received from serial:", data)
                 self.process_sample(data, source="serial")

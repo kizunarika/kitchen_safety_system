@@ -172,7 +172,6 @@ async function refreshData() {
 
 function initSubmitButton() {
   const checkSubmitBtn = document.getElementById("check-btn-submit");
-  console.log(checkSubmitBtn);
   if (!checkSubmitBtn) return;
 
   checkSubmitBtn.addEventListener("click", async () => {
@@ -185,9 +184,9 @@ function initSubmitButton() {
       absence_time: Number(document.getElementById("absence-time-input").value),
       stove_time: Number(document.getElementById("stove-time-input").value),
 
-      fire: document.getElementById("fire-status").checked ? 1 : 0,
-      stove_on: document.getElementById("stove-status").checked ? 1 : 0,
-      human: document.getElementById("people-detected").checked ? 1 : 0
+      fire: document.getElementById("fire-status-input").checked ? 1 : 0,
+      stove_on: document.getElementById("stove-status-input").checked ? 1 : 0,
+      human: document.getElementById("people-detected-input").checked ? 1 : 0
     };
 
     const res = await fetch("/submit_features", {
@@ -261,7 +260,7 @@ function initApp() {
   initServerResetButton();
   initSubmitButton()
 
-  // setInterval(refreshData, 2000);
+  setInterval(refreshData, 2000);
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

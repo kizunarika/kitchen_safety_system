@@ -121,7 +121,7 @@ function initChart() {
 
 /* ================== INCREMENTAL UPDATE ================== */
 async function reloadByTime() {
-  const data = await loadCSV("../df_train.csv");
+  const data = await loadCSV("/static/kitchen_data.csv");
 
   const newRows = lastTimestamp
     ? data.filter(r => r.timestamp > lastTimestamp)

@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import threading
 from datetime import datetime
 
-from settings import FEATURES
+from settings import *
 
 
 class KitchenWebInterface:
@@ -47,21 +47,24 @@ class KitchenWebInterface:
                 data = request.get_json()
                 rules = data.get("rules", [])
 
-                parsed = []
-                for r in rules:
-                    condition, result = r.rsplit(",", 1)
-                    parsed.append({
-                        "condition": condition.strip('"'),
-                        "result": int(result)
-                    })
+                import csv
 
-                import json
-                with open("rules.json", "w", encoding="utf-8") as f:
-                    json.dump(parsed, f, indent=4, ensure_ascii=False)
+                with open(RULES_PATH, "w", newline="", encoding="utf-8") as f:
+                    writer = csv.writer(f)
 
-                print("[INFO] Saved rules:", parsed)
+                    for r in rules:
+                        condition, result = r.rsplit(",", 1)
 
-                return jsonify({"status": "ok"})
+                        writer.writerow([
+                            condition.strip('"'),
+                            int(result)
+                        ])
+
+                print("[INFO] Saved rules:", rules)
+
+                return jsonify({
+                    "status": "ok"
+                })
 
             except Exception as e:
                 return jsonify({
